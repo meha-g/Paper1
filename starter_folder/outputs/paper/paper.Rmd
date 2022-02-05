@@ -1,12 +1,10 @@
 ---
-title: "My title"
-subtitle: "My subtitle if needed"
+title: "Crime Rates in Toronto"
 author: 
-  - First author
-  - Another author
-thanks: "Code and data are available at: LINK."
+  - Meha Grewal
+thanks: "Code and data are available at: https://github.com/meha-g/Paper1."
 date: "`r format(Sys.time(), '%d %B %Y')`"
-abstract: "First sentence. Second sentence. Third sentence. Fourth sentence."
+abstract: "Neighbourhood crime rates in the city of Toronto is essential data to understand illegal activity in the city. We cleaned and analyzed crime statistics in 2020 based on different crimes using graphs.. Third sentence (our findings). Fourth sentence (why it matters)."
 output:
   bookdown::pdf_document2
 toc: FALSE
@@ -26,12 +24,20 @@ library(tidyr)
 
 # Introduction
 
-You can and should cross-reference sections and sub-sections. For instance, Section \@ref(data). R Markdown automatically makes the sections lower case and adds a dash to spaces to generate labels, for instance, Section \@ref(first-discussion-point). 
+First paragraph is going to be motivational and broad.
+
+Second paragraph about what was done and what was found 
+
+Third paragraph about implications 
+
+Remainder of this paper is: Section \@ref(data) explains the data. Section \@ref(results) covers results... 
 
 
 ### Data
 
-Our data is of .
+Paragraph or two introducing data set broadly.
+Our data is of ...
+
 
 ```{r bills, fig.cap="Bills of penguins", echo = FALSE}
 #ggplot(penguins, aes(x = island, fill = species)) +
@@ -64,6 +70,22 @@ data
 
 crime_dat <- read.csv("/Users/meha/Documents/YEAR 3/STA304/neighbourhood-crime-rates.csv")
 ```
+
+Show an extract of the data (Table \@ref(tab:dataextract))
+```{r dataextract}
+crime_dat %>% 
+  select(Neighbourhood, AutoTheft_2020, Assault_2020, Robbery_2020)
+  slice(1:10) %>%  
+  kable(
+    caption = "First ten rows of a dataset of economic indicators for 
+    Australia, Ethiopia, India, and the US",
+    col.names = c("Neighbourhood", "Auto Theft", "Assualt", "Robbery"),
+    digits = 1
+  )
+```
+
+
+
 
 ## Cleaning the Data 
 

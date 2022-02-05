@@ -38,104 +38,65 @@ Remainder of this paper is: Section \@ref(data) explains the data. Section \@ref
 Paragraph or two introducing data set broadly.
 Our data is of ...
 
-
-```{r bills, fig.cap="Bills of penguins", echo = FALSE}
-#ggplot(penguins, aes(x = island, fill = species)) +
- # geom_bar(alpha = 0.8) +
-  #scale_fill_manual(values = c("darkorange","purple","cyan4"),
-   #                 guide = FALSE) +
-  #theme_minimal() +
-  #facet_wrap(~species, ncol = 1) +
-  #coord_flip()
-
-```
+We obtained our data set using the 'opendatatoronto' package from the City of Toronto's Open Data Portal [@citeopendatatoronto] and the statistical programming language R [@citeR]
 
 ## Data Download
-#From Open Data Toronto https://open.toronto.ca/dataset/neighbourhood-crime-rates/
+From Open Data Toronto https://open.toronto.ca/dataset/neighbourhood-crime-rates/
 
-```{r}
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
 # get package
-package <- show_package("fc4d95a6-591f-411f-af17-327e6c5d03c7")
-package
+#package <- show_package("fc4d95a6-591f-411f-af17-327e6c5d03c7")
+#package
 
 # get all resources for this package
-resources <- list_package_resources("fc4d95a6-591f-411f-af17-327e6c5d03c7")
+#resources <- list_package_resources("fc4d95a6-591f-411f-af17-327e6c5d03c7")
 
 # identify datastore resources; by default, Toronto Open Data sets datastore resource format to CSV for non-geospatial and GeoJSON for geospatial resources
-datastore_resources <- filter(resources, tolower(format) %in% c('csv', 'geojson'))
+#datastore_resources <- filter(resources, tolower(format) %in% c('csv', 'geojson'))
 
 # load the first datastore resource as a sample
-data <- filter(datastore_resources, row_number()==1) %>% get_resource()
-data
+#data <- filter(datastore_resources, row_number()==1) %>% get_resource()
+#data
 
 crime_dat <- read.csv("/Users/meha/Documents/YEAR 3/STA304/neighbourhood-crime-rates.csv")
 ```
 
 Show an extract of the data (Table \@ref(tab:dataextract))
-```{r dataextract}
+```{r dataextract, echo=FALSE, warning=FALSE, message=FALSE}
 crime_dat %>% 
-  select(Neighbourhood, AutoTheft_2020, Assault_2020, Robbery_2020)
+  select(Neighbourhood, AutoTheft_2020, Assault_2020, Robbery_2020) %>% 
   slice(1:10) %>%  
   kable(
-    caption = "First ten rows of a dataset of economic indicators for 
-    Australia, Ethiopia, India, and the US",
+    caption = "First ten rows of a dataset of crime rates for auto thefts, assault, and robbery.",
     col.names = c("Neighbourhood", "Auto Theft", "Assualt", "Robbery"),
-    digits = 1
+    digits = 1,
+    booktabs = TRUE,
+    linesep =""
   )
 ```
 
-
-
+Paragraph or two more about Table (Table \@ref(tab:dataextract))
 
 ## Cleaning the Data 
 
-```{r}
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+#Checking for missing variables in data set
+dat <- is.na(crime_dat)
+
 
 ```
 
+Our data set is of crime rates (Figure \@ref(fig:rates))
 
+We are interested in the number of homicides from the years 2014 to 2020 since this showcases the current trends of dangerous crimes being committed and its implications for the safety of neighborhoods in Toronto.  
 
+Figure (Figure \@ref(fig:rates)) displays the pattern of homicides in Toronto between the years of 2014-2020
+```{r rates, fig.cap="Homicide rates in Toronto", echo=FALSE, warning=FALSE, message=FALSE}
 
-```{r billssssss, fig.cap="More bills of penguins", echo = FALSE, fig.width=8, fig.height=4}
-
-# This needs to be about the random data tha tI sasmpled?
-ggplot(penguins, aes(x = island, fill = species)) +
-  geom_bar(alpha = 0.8) +
-  scale_fill_manual(values = c("darkorange","purple","cyan4"),
-                    guide = FALSE) +
-  theme_minimal() +
-  facet_wrap(~species, ncol = 1) +
-  coord_flip()
 ```
 
 Talk way more about it. 
 
-
-
-# Model
-
-\begin{equation}
-Pr(\theta | y) = \frac{Pr(y | \theta) Pr(\theta)}{Pr(y)}  (\#eq:bayes)
-\end{equation}
-
-Equation \@ref(eq:bayes) seems useful, eh?
-
-Here's a dumb example of how to use some references: In paper we run our analysis in `R` [@citeR]. We also use the `tidyverse` which was written by @thereferencecanbewhatever If we were interested in baseball data then @citeLahman could be useful. 
-
-We can use maths by including latex between dollar signs, for instance $\theta$.
-
-
-# Results
-
-# Discussion
-
-## First discussion point
-
-If my paper were 10 pages, then should be be at least 2.5 pages. The discussion is a chance to show off what you know and what you learnt from all this. 
-
-## Second discussion point
-
-## Third discussion point
 
 ## Weaknesses and next steps
 
