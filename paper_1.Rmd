@@ -4,7 +4,7 @@ author:
   - Meha Grewal
 thanks: "Code and data are available at: https://github.com/meha-g/Paper1."
 date: "`r format(Sys.time(), '%d %B %Y')`"
-abstract: "Neighbourhood crime rates in the city of Toronto is essential data to understand illegal activity in the city. We cleaned and analyzed crime statistics in 2020 based on different crimes using graphs.. Third sentence (our findings). Fourth sentence (why it matters)."
+abstract: "Neighbourhood crime rates in the city of Toronto is essential data to understand illegal activity in the city. We cleaned and analyzed crime statistics in 2020 based on different crimes using graphs and tables. In our findings we concluded that the most prominent crime occurring in Toronto has been assault rates, and the number of assaults has gradually increased over the period of 2014-2020. This data can be utilized to understand what areas need to be focused on by the city and law enforcement agencies, this information can be influential in understanding what neighbourhoods to distribute social services and where to focus on the prevention of crime.  (why it matters)."
 output:
   bookdown::pdf_document2
 toc: FALSE
@@ -17,9 +17,9 @@ knitr::opts_chunk$set(echo = TRUE)
 library(knitr)
 library(janitor)
 library(opendatatoronto)
-library(lubridate)
 library(tidyverse)
-library(tidyr)
+library(patchwork)
+library(skimr)
 ```
 
 # Introduction
@@ -36,11 +36,12 @@ Remainder of this paper is: Section \@ref(data) explains the data. Section \@ref
 ### Data
 
 Paragraph or two introducing data set broadly.
-Our data is of ...
 
 We obtained our data set using the 'opendatatoronto' package from the City of Toronto's Open Data Portal [@citeopendatatoronto] and the statistical programming language R [@citeR]
 
-## Data Download
+Our data is about ...
+
+## Data Source
 From Open Data Toronto https://open.toronto.ca/dataset/neighbourhood-crime-rates/
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
@@ -61,14 +62,41 @@ From Open Data Toronto https://open.toronto.ca/dataset/neighbourhood-crime-rates
 crime_dat <- read.csv("/Users/meha/Documents/YEAR 3/STA304/neighbourhood-crime-rates.csv")
 ```
 
+## Data Cleaning
+
+Used the 'janitor' package to check data to clean the data set by checking for dupes and cleaning names
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+#Checking for missing variables, dupes, and converting variable names to lowercase
+dat <- na.omit(crime_dat)
+clean <- dat %>% 
+  get_dupes(Neighbourhood)
+crime_dat <- crime_dat %>% 
+  clean_names()
+
+```
+
+## Summary Statistics 
+Neighborhoods with most crime 
+```{r, fig.cap="Summary statistics for rates of various crimes in 2020.", echo=FALSE, warning=FALSE, message=FALSE}
+crime_dat %>% 
+  select(ends_with("rate2020")) %>% 
+  summary()
+```
+Used package 'skimr' 
+blah blah 
+
+
+## Data Extract
 Show an extract of the data (Table \@ref(tab:dataextract))
 ```{r dataextract, echo=FALSE, warning=FALSE, message=FALSE}
 crime_dat %>% 
-  select(Neighbourhood, AutoTheft_2020, Assault_2020, Robbery_2020) %>% 
+  select(neighbourhood, f2020_population_projection, assault_2014, assault_2015, assault_2016,
+         assault_2017, assault_2018, assault_2019, assault_2020) %>%
   slice(1:10) %>%  
   kable(
-    caption = "First ten rows of a dataset of crime rates for auto thefts, assault, and robbery.",
-    col.names = c("Neighbourhood", "Auto Theft", "Assualt", "Robbery"),
+    caption = "First ten rows of a dataset of number of homicides between the years of 2014 to 2020.",
+    col.names = c("Neighbourhood", "Population", "Assault 2014", "Assault 2015", "Assault 2016",
+                  "Assault 2017", "Assault 2018", "Assault 2019", "Assault 2020"),
     digits = 1,
     booktabs = TRUE,
     linesep =""
@@ -76,31 +104,41 @@ crime_dat %>%
 ```
 
 Paragraph or two more about Table (Table \@ref(tab:dataextract))
-
-## Cleaning the Data 
-
-```{r, echo=FALSE, warning=FALSE, message=FALSE}
-#Checking for missing variables in data set
-dat <- is.na(crime_dat)
+Used package 'knitr'
 
 
-```
+## Graphs
 
-Our data set is of crime rates (Figure \@ref(fig:rates))
+Our data set is of crime rates (Figure \@ref(fig:population))
 
 We are interested in the number of homicides from the years 2014 to 2020 since this showcases the current trends of dangerous crimes being committed and its implications for the safety of neighborhoods in Toronto.  
 
-Figure (Figure \@ref(fig:rates)) displays the pattern of homicides in Toronto between the years of 2014-2020
-```{r rates, fig.cap="Homicide rates in Toronto", echo=FALSE, warning=FALSE, message=FALSE}
+Figure (Figure \@ref(fig:population)) displays the pattern of homicides in Toronto between the years of 2014-2020
+```{r population, fig.cap="Population projection for 2020", echo=FALSE, warning=FALSE, message=FALSE}
+crime_dat %>% 
+  ggplot(mapping = aes(x = f2020_population_projection)) +
+  geom_histogram()
 
 ```
+Explanation of Figure 1
 
+```{r assault, fig.cap="Comparison of assault rates in 2014 and 2020.", echo=FALSE, warning=FALSE, message=FALSE}
+t <- 
+crime_dat %>% 
+  ggplot(mapping = aes(x = assault_rate2014)) +
+  geom_histogram()
+
+m <-
+crime_dat %>% 
+  ggplot(mapping = aes(x = assault_rate2020)) +
+  geom_histogram()
+
+(t + m)
+```
+Explanation of Figure 2
+
+Used package 'patchwork' to pair the plots together.
 Talk way more about it. 
-
-
-## Weaknesses and next steps
-
-Weaknesses and next steps should also be included.
 
 \newpage
 
