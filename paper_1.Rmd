@@ -4,7 +4,7 @@ author:
   - Meha Grewal
 thanks: "Code and data are available at: https://github.com/meha-g/Paper1."
 date: "`r format(Sys.time(), '%d %B %Y')`"
-abstract: "Neighbourhood crime rates in the city of Toronto is essential data to understand illegal activity in the city. We cleaned and analyzed crime statistics in 2020 based on different crimes using graphs and tables. In our findings we concluded that the most prominent crime occurring in Toronto has been assault rates, and the number of assaults has gradually increased over the period of 2014-2020. This data can be utilized to understand what areas need to be focused on by the city and law enforcement agencies, this information can be influential in understanding what neighbourhoods to distribute social services and where to focus on the prevention of crime.  (why it matters)."
+abstract: "Neighbourhood crime rates in the city of Toronto is essential data to understand illegal activity in the city. We cleaned and analyzed crime statistics in 2020 based on different crimes using graphs and tables. In our findings we concluded that the most prominent crime occurring in Toronto has been assault rates, and the number of assaults has gradually increased over the period of 2014-2020. This data can be utilized to understand what areas need to be focused on by the city and law enforcement agencies, it can be influential in understanding what neighbourhoods to distribute social services and where to focus on the prevention of crime."
 output:
   bookdown::pdf_document2
 toc: FALSE
@@ -36,7 +36,7 @@ This information emphasizes what areas need to be focused on for the safety of T
 ## Data Source
 
 Paragraph or two introducing data set broadly.
-This paper focuses on data about neighborhood crime rates in Toronto from Open Data Toronto https://open.toronto.ca/dataset/neighbourhood-crime-rates/. We obtained our data set using the 'opendatatoronto' package from the City of Toronto's Open Data Portal [@citeopendatatoronto] and the statistical programming language R [@citeR]. This data set was provided by the Toronto Police Service for the Public Safety Data Portal: Open Data Portal. The data set was obtained in CSV format and was last updated on May 6, 2021. 
+This paper focuses on data about neighborhood crime rates in Toronto from Open Data Toronto https://open.toronto.ca/dataset/neighbourhood-crime-rates/. We obtained our data set using the 'opendatatoronto' package from the City of Toronto's Open Data Portal [@citeopendatatoronto] and the statistical programming language R [@citeR]. This data set was provided by the Toronto Police Service for the Public Safety Data Portal: Open Data Portal and includes detailed information regarding the count and crime rates for the offenses that are included. The data set was obtained in CSV format and was last updated on May 6, 2021. 
 
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
@@ -71,7 +71,7 @@ crime_dat <- crime_dat %>%
 
 ```
 
-We began by cleaning the data set using the 'janitor' package [@citejanitor], this allowed us to check for missing variables, dupes, and convert variable names to lowercase. Then we created a summary of all the crime rates within the data to understand the distributions and specify which crimes are most prominent. We used the 'skimr' package [@citeskimr] to create the summary statistics (Table \@ref(tab:stat)).
+We began by cleaning the data set using the 'janitor' package [@citejanitor], this allowed us to check for missing variables, dupes, and convert variable names to lowercase. Then we created a summary of all the crime rates within the data to understand the distributions and specify which crimes are most prominent. We used the 'skimr' package [@citeskimr] to create the summary statistics.
 
 ```{r stat, echo=FALSE, warning=FALSE, message=FALSE}
 #Creating summary for crime rates using skimr package
@@ -80,10 +80,11 @@ crime_dat %>%
   summary()
 ```
 
-(Table \@ref(tab:summarystat)) showcases summaries for all the crime rate variables for the year 2020, this was done to analyze the most recent data. The table indicates that the overall highest crime rate belongs to assaults as seen in the mean of 'assault_rate2020'. Additionally the minimum and maximum assault rate is higher than all other crime rates provided in the data set. Thus we concluded that assaults in Toronto regions is the most common issue currently. 
+These statistics showcase summaries for all the crime rate variables for the year 2020, this was done to analyze the most recent data. The table indicates that the overall highest crime rate belongs to assaults as seen in the mean of 'assault_rate2020'. Additionally the minimum and maximum assault rate is higher than all other crime rates provided in the data set. Thus we concluded that assaults in Toronto regions is the most common issue currently. 
 
 
-Next, we showcased an extract of the number of assaults for 10 neighborhoods, including the projected population for 2020, (Table \@ref(tab:dataextract)). 
+Next, we showcased an extract of the number of assaults for 10 neighborhoods, including the projected population for 2020, (Table \@ref(tab:dataextract)).
+
 ```{r dataextract, echo=FALSE, warning=FALSE, message=FALSE}
 #Extract of the data using knitr package
 crime_dat %>% 
@@ -102,13 +103,11 @@ crime_dat %>%
 
 We utilized the package 'knitr' [@R-knitr] to create (Table \@ref(tab:dataextract)). It displays 10 neighborhoods and the assault rates from the years of 2017 to 2020 because we wanted to showcase the count of assaults in recent years and its trends. Overall there is no clear trend and between this time period the number of assaults in neighborhoods as it fluctuates negatively and positively. Particularly, neighborhoods such as Danforth East York, Thistletown-Beaumond Heights, and especially Yorkdale-Glen Park were able to drastically decrease their number of assaults from 2019 to 2020. This emphasizes which neighborhoods safety precautions could potentially be modeled after to reduce the crime rate in other regions of the city. 
 
+## Graphs
 
-##Graphs
+We are interested in the number of assaults from the years 2014 to 2020 since this showcases the current trends of dangerous crimes being committed and its implications for the safety of neighborhoods in Toronto. By creating histograms of assault rates in the years 2014 and 2020 and comparing them side by side, we could visually see if crime prevention had an overall impact during that time period. We utilized the package 'patchwork' [@citationpatchwork] to join the two graphs together. (Figure \@ref(fig:histog)) displays the pattern of homicides in Toronto between the years of 2014-2020.
 
-We are interested in the number of assaults from the years 2014 to 2020 since this showcases the current trends of dangerous crimes being committed and its implications for the safety of neighborhoods in Toronto. By creating histograms of assault rates in the years 2014 and 2020 and comparing them side by side, we could visually see if crime prevention had an overall impact during that time period. We utilized the package 'patchwork' [@citationpatchwork] to join the two graphs together.
-
-Figure (Figure \@ref(fig:histog)) displays the pattern of homicides in Toronto between the years of 2014-2020
-```{r histog, fig.cap="Comparison of assault rates in 2014 and 2020.", echo=FALSE, warning=FALSE, message=FALSE}
+```{r histog, fig.cap=" ", echo=FALSE, warning=FALSE, message=FALSE}
 #Histograms of assault rates in beginning and end of recorded period
 t <- 
 crime_dat %>% 
@@ -129,9 +128,9 @@ crime_dat %>%
 The distributions of assault rates (Figure \@ref(fig:histog)), in those two years have remained the same. As both have a heavy right skew with most data between the interval 0 and 1000 as the assault rate. However, the assault rate in 2020 has a higher concentration of values and notably larger value that have an assault rate of more than 3000. Meaning the maximum value in 2020 is much higher than the maximum value for 2014. 
 
 
-Furthermore, we viewed the number of assaults in the years 2014 and 2020 again but looking at the 10 top neighborhoods with the highest populations projected (Figure \@ref(fig:scatter)). 
+Furthermore, we viewed the number of assaults in the years 2014 and 2020 again but looking at the 10 top neighborhoods with the highest populations projected (Figure \@ref(fig:scatter)).
 
-```{r scatter, echo=FALSE, warning=FALSE, message=FALSE}
+```{r scatter, fig.cap=" ", echo=FALSE, warning=FALSE, message=FALSE}
 #Scatter plots of neighborhoods with highest populations and number of assaults
 w <-
 crime_dat %>% 
@@ -154,11 +153,11 @@ crime_dat %>%
 (w+f)
 
 ```
-Similarly, these plots follow the same distribution, but we can conclude that assaults have either slightly increased or remained the same for all the neighborhoods included.  
+Similarly, these plots follow the same distribution, but we can conclude that assaults have either slightly increased or remained the same for all the neighborhoods included. We can visually see how large the amount of assaults are in the areas of Church-Yonge Corridor and Waterfront Communities-The Island.
 
 ## Limitations
 
-There still exists limitations for this data set. The population variable only represents those that reside in the region and do not include temporary populations, like commuters. Additionally, not every crime is provided within this data set by the Toronto Police Service, thus we cannot know for sure whether assaults are truly the most common crime. Furthermore, this does not accurately describe crime rates in Toronto neighborhoods as there are still unreported crimes that occur. We do not have access to the method the Toronto Police Service used to acquire this data.
+There still exists limitations for this data set. The population variable only represents those that reside in the region and do not include temporary populations, like commuters. Additionally, not every crime is provided within this data set by the Toronto Police Service, thus we cannot know for sure whether assaults are truly the most common crime. Furthermore, this does not accurately describe crime rates in Toronto neighborhoods as there are still unreported crimes that occur. We do not have access to the method the Toronto Police Service used to acquire this data thus are unaware of any bias that may exist.
 
 \newpage
 
